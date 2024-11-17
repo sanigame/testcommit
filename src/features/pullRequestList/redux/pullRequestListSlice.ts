@@ -7,8 +7,15 @@ import { RootState } from '../../../store/store'
 import { axios, resolveApiError } from '../../../utils'
 
 const JIRA_API_URL = window?.env?.JIRA_API_URL
-const EMAIL = window?.env?.EMAIL
-const API_TOKEN = window?.env?.API_TOKEN
+const EMAIL = localStorage.getItem('email')
+if (!EMAIL) {
+  localStorage.setItem('email', '')
+}
+
+const API_TOKEN = localStorage.getItem('token')
+if (!EMAIL) {
+  localStorage.setItem('token', '')
+}
 const JIRA_TOKEN = Buffer.from(`${EMAIL}:${API_TOKEN}`).toString('base64')
 
 export const fetchPullRequestList = createAsyncThunk(
