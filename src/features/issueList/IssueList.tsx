@@ -37,7 +37,7 @@ function SprintList({ sprintId }: Props) {
               expandIcon={<ExpandMoreIcon />}
               aria-controls={`panel${i}-content`}
               id={`panel${i}-header`}>
-              [{sprint.key}] {sprint.fields.summary}
+              [{sprint.key}] ({sprint.fields.assignee?.displayName || '-'}) {sprint.fields.summary}
             </AccordionSummary>
             <AccordionDetails>
               <Grid container spacing={2}>
