@@ -39,6 +39,30 @@ export const fetchIssueList = createAsyncThunk(
     }
   },
 )
+
+export const fetchIssueListFromBoard = createAsyncThunk(
+  'issueListSlice/fetchIssueList',
+  async (userData: { boardId: string; release: string }, { rejectWithValue }) => {
+    try {
+      const { boardId, release } = userData
+      const response = await axios.get(`${JIRA_API_URL}/rest/agile/1.0/board/${boardId}/issue`, {
+        params: {
+          startAt: 0,
+          maxResults: 500,
+          jql: `project = ONEAPP AND "release[dropdown]" = ${release} ORDER BY created DESC`,
+        },
+        headers: {
+          Authorization: `Basic ${JIRA_TOKEN}`,
+          Accept: 'application/json',
+        },
+      })
+
+      return response.data.issues
+    } catch (error) {
+      return rejectWithValue(resolveApiError(error))
+    }
+  },
+)
 interface IssueListState {
   list: {
     id: number
@@ -55,6 +79,12 @@ interface IssueListState {
       }
       issuetype: {
         name: string
+      }
+      priority: {
+        name: string
+      }
+      customfield_10513: {
+        value: string
       }
     }
   }[]

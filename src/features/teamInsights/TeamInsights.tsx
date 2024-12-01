@@ -75,7 +75,6 @@ function TeamInsights() {
     })
 
     for (const [key, value] of Object.entries(teamObj)) {
-      console.log(`${key}: ${value}`)
       teamArr.push({
         accountId: key,
         displayName: value,

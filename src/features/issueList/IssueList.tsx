@@ -2,30 +2,34 @@ import React, { useEffect } from 'react'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Accordion from '@mui/material/Accordion'
-import AccordionDetails from '@mui/material/AccordionDetails'
+// import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import Grid from '@mui/material/Grid2'
+// import Grid from '@mui/material/Grid2'
 
 import CircleLoading from '../../components/circleLoading/CircleLoading'
 import { useAppDispatch, useAppSelector } from '../../hooks/store'
-import { PullRequestList } from '../pullRequestList'
-import { RepositoryList } from '../repositoryList'
+// import { PullRequestList } from '../pullRequestList'
+// import { RepositoryList } from '../repositoryList'
 
-import { fetchIssueList } from './redux/issueListSlice'
+import {
+  // fetchIssueList,
+  fetchIssueListFromBoard,
+} from './redux/issueListSlice'
 
 type Props = {
-  sprintId: string
+  boardId: string
+  release: string
 }
-function SprintList({ sprintId }: Props) {
+function SprintList({ boardId, release }: Props) {
   const dispatch = useAppDispatch()
   const { list, isFetching } = useAppSelector((state) => state.issueList)
 
   useEffect(() => {
-    if (sprintId !== '') {
-      dispatch(fetchIssueList({ sprintId }))
+    if (boardId !== '') {
+      dispatch(fetchIssueListFromBoard({ boardId, release }))
     }
     return () => {}
-  }, [dispatch, sprintId])
+  }, [dispatch, boardId, release])
 
   return (
     <div>
@@ -39,7 +43,7 @@ function SprintList({ sprintId }: Props) {
               id={`panel${i}-header`}>
               [{sprint.key}] ({sprint.fields.assignee?.displayName || '-'}) {sprint.fields.summary}
             </AccordionSummary>
-            <AccordionDetails>
+            {/* <AccordionDetails>
               <Grid container spacing={2}>
                 <Grid size={6}>
                   <RepositoryList issueId={sprint.id.toString()} />
@@ -48,7 +52,7 @@ function SprintList({ sprintId }: Props) {
                   <PullRequestList issueId={sprint.id.toString()} />
                 </Grid>
               </Grid>
-            </AccordionDetails>
+            </AccordionDetails> */}
           </Accordion>
         )
       })}
